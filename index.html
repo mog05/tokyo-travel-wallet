@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -89,7 +90,7 @@
   </div>
 
   <script>
-    const endpoint = "https://script.google.com/macros/s/AKfycbzEG0HraWY-TUl8e5i5DD7ANYb82ybhrf-ELekQLDBPMaaZ9MANl8S7orjCD0Vw2-9Bmg/exec";
+    const endpoint = "https://script.google.com/macros/s/AKfycby_nn68iEiBgdKJB6erqw1zXNTk6Yc4dnjzhfmvCoeSS1zPytQXowqaHVGZEw0tGKxzgQ/exec";
 
     function fetchData() {
       fetch(endpoint)
@@ -122,19 +123,24 @@
 
       fetch(endpoint, {
         method: "POST",
-        mode: "no-cors",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ desc, amount, payer })
+      })
+      .then(res => res.text())
+      .then(txt => {
+        alert("送信結果: " + txt);
+        fetchData();
+      })
+      .catch(err => {
+        alert("送信失敗: " + err.message);
       });
 
       document.getElementById("log").innerText =
         "登録しました（反映に数秒かかります）";
       document.getElementById("desc").value = "";
       document.getElementById("amount").value = "";
-
-      setTimeout(fetchData, 3000);
     }
 
     fetchData();
