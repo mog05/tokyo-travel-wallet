@@ -149,9 +149,11 @@
     }
 
     // 初期データ取得(JSONP)
-    const initScript = document.createElement("script");
-    initScript.src = `${WEBAPP_URL}?callback=handleData`;
-    document.body.appendChild(initScript);
+    (function(){
+      const script = document.createElement("script");
+      script.src = `${WEBAPP_URL}?callback=handleData`;
+      document.body.appendChild(script);
+    })();
 
     // 支出登録
     async function submitPayment() {
@@ -164,13 +166,14 @@
       }
       await fetch(WEBAPP_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body: JSON.stringify({ desc, amount, payer })
       });
       document.getElementById("log").innerText = "✅ 登録完了！反映に数秒かかります。";
       document.getElementById("desc").value = '';
       document.getElementById("amount").value = '';
-      // 再データ取得(JSONP)
+      // 再取得(JSONP)
       const script = document.createElement("script");
       script.src = `${WEBAPP_URL}?callback=handleData`;
       document.body.appendChild(script);
