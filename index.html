@@ -13,89 +13,58 @@
       background-size: cover;
     }
     .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(255, 255, 255, 0.85);
-      z-index: 1;
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(255,255,255,0.85);
+      z-index:1;
     }
     .container {
-      position: relative;
-      z-index: 2;
-      max-width: 700px;
-      margin: 2em auto;
-      background: #fff;
-      border-radius: 12px;
-      padding: 1.5em;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      position:relative; z-index:2;
+      max-width:700px; margin:2em auto;
+      background:#fff; border-radius:12px;
+      padding:1.5em; box-shadow:0 4px 12px rgba(0,0,0,0.15);
     }
-    h1 {
-      text-align: center;
-      font-size: 1.8em;
-      color: #d32f2f;
-    }
+    h1 { text-align:center; font-size:1.8em; color:#d32f2f; }
     .balance {
-      text-align: center;
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #388e3c;
-      margin: 0.5em 0;
+      text-align:center; font-size:1.2em;
+      font-weight:bold; color:#388e3c;
+      margin:0.5em 0;
     }
-    .form-group { margin-bottom: 1.2em; }
-    label {
-      display: block;
-      margin-bottom: 0.3em;
-      font-weight: bold;
-    }
+    .form-group { margin-bottom:1.2em; }
+    label { display:block; margin-bottom:0.3em; font-weight:bold; }
     input, select {
-      width: 100%;
-      padding: 0.6em;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
-      box-sizing: border-box;
+      width:100%; padding:0.6em;
+      border:1px solid #ccc; border-radius:6px;
+      font-size:1em; box-sizing:border-box;
     }
     button {
-      display: block;
-      width: 100%;
-      padding: 0.8em;
-      background: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1.1em;
-      cursor: pointer;
+      display:block; width:100%; padding:0.8em;
+      background:#1976d2; color:#fff; border:none;
+      border-radius:6px; font-size:1.1em; cursor:pointer;
     }
-    button:hover { background: #1565c0; }
+    button:hover { background:#1565c0; }
     .log {
-      margin-top: 0.8em;
-      font-size: 0.9em;
-      color: #555;
-      text-align: center;
+      margin-top:0.8em; font-size:0.9em;
+      color:#555; text-align:center;
     }
-    .history { margin-top: 2em; }
+    .history { margin-top:2em; }
     .history h3 {
-      font-size: 1.1em;
-      margin-bottom: 0.5em;
-      color: #d32f2f;
+      font-size:1.1em; margin-bottom:0.5em;
+      color:#d32f2f;
     }
     .history ul {
-      list-style: none;
-      padding: 0;
-      max-height: 250px;
-      overflow-y: auto;
+      list-style:none; padding:0;
+      max-height:250px; overflow-y:auto;
     }
     .history li {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5em 0;
-      border-bottom: 1px solid #eee;
-      font-size: 0.95em;
+      display:flex; justify-content:space-between;
+      padding:0.5em 0; border-bottom:1px solid #eee;
+      font-size:0.95em;
     }
-    .history span.date { flex: 1.2; color: #757575; }
-    .history span.desc { flex: 1; }
-    .history span.amount { flex: 0.8; }
-    .history span.payer { flex: 1; }
+    .history span.date { flex:1.2; color:#757575; }
+    .history span.desc { flex:1; }
+    .history span.amount { flex:0.8; }
+    .history span.payer { flex:1; }
   </style>
 </head>
 <body>
@@ -104,24 +73,27 @@
     <h1>🗼東京旅プール財布🌸</h1>
     <div id="balance" class="balance">🌟残額を取得中…</div>
 
-    <div class="form-group">
-      <label for="desc">項目 🍱</label>
-      <input id="desc" type="text" placeholder="例: ランチ 🍣" />
-    </div>
-    <div class="form-group">
-      <label for="amount">金額 💴</label>
-      <input id="amount" type="number" placeholder="例: 1200" />
-    </div>
-    <div class="form-group">
-      <label for="payer">立替者 👤</label>
-      <select id="payer">
-        <option value="">プールから直接</option>
-        <option>玄位</option><option>浩史</option><option>晶子</option>
-        <option>献四郎</option><option>真理子</option>
-        <option>和貴</option><option>優貴子</option>
-      </select>
-    </div>
-    <button id="submitBtn">✈️ 登録する</button>
+    <!-- フォーム送信 -->
+    <form id="payForm" action="WEBAPP_URL" method="post" target="dummyframe">
+      <div class="form-group">
+        <label for="desc">項目 🍱</label>
+        <input id="desc" name="desc" type="text" placeholder="例: ランチ 🍣" required />
+      </div>
+      <div class="form-group">
+        <label for="amount">金額 💴</label>
+        <input id="amount" name="amount" type="number" placeholder="例: 1200" required />
+      </div>
+      <div class="form-group">
+        <label for="payer">立替者 👤</label>
+        <select id="payer" name="payer">
+          <option value="">プールから直接</option>
+          <option>玄位</option><option>浩史</option><option>晶子</option>
+          <option>献四郎</option><option>真理子</option>
+          <option>和貴</option><option>優貴子</option>
+        </select>
+      </div>
+      <button type="submit">✈️ 登録する</button>
+    </form>
     <div id="log" class="log"></div>
 
     <div class="history">
@@ -130,11 +102,15 @@
     </div>
   </div>
 
-  <script>
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec";
+  <iframe name="dummyframe" style="display:none;"></iframe>
 
+  <script>
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyT4bu0eW5QOVdk3p0jiAcFCJGWMttr-4Bcp6QRNA33R1JYDX1BJAv661-HP3_sLobPJQ/exec";
+
+    // JSONP コールバック
     function handleData(data) {
-      document.getElementById("balance").innerText = `🌸現在の残額：${data.balance.toLocaleString()}円`;
+      document.getElementById("balance").innerText =
+        `🌸現在の残額：${data.balance.toLocaleString()}円`;
       const list = document.getElementById("historyList");
       list.innerHTML = '';
       data.entries.reverse().forEach(e => {
@@ -146,41 +122,27 @@
           `<span class="payer">${e.payer}</span>`;
         list.appendChild(li);
       });
+      document.getElementById("log").innerText = '';
     }
 
-    // 初期データ取得(JSONP)
-    (function(){
-      const script = document.createElement("script");
-      script.src = `${WEBAPP_URL}?callback=handleData`;
-      document.body.appendChild(script);
-    })();
-
-    // 支出登録
-    async function submitPayment() {
-      const desc = document.getElementById("desc").value.trim();
-      const amount = parseFloat(document.getElementById("amount").value);
-      const payer = document.getElementById("payer").value;
-      if (!desc || !amount) {
-        alert("項目と金額を入力してください✨");
-        return;
-      }
-      await fetch(WEBAPP_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-        body: JSON.stringify({ desc, amount, payer })
-      });
-      document.getElementById("log").innerText = "✅ 登録完了！反映に数秒かかります。";
-      document.getElementById("desc").value = '';
-      document.getElementById("amount").value = '';
-      // 再取得(JSONP)
-      const script = document.createElement("script");
+    // データ取得（JSONP）
+    function fetchData() {
+      const script = document.createElement('script');
       script.src = `${WEBAPP_URL}?callback=handleData`;
       document.body.appendChild(script);
       script.onload = () => document.body.removeChild(script);
     }
 
-    document.getElementById("submitBtn").addEventListener("click", submitPayment);
+    // フォーム送信後のログと再取得
+    document.getElementById('payForm').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById("log").innerText = "✅ 登録中…";
+      e.target.submit();
+      setTimeout(fetchData, 1500);
+    });
+
+    // 初回ロード
+    fetchData();
   </script>
 </body>
 </html>
