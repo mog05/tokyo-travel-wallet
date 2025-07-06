@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🗼東京旅プール財布🌸</title>
   <style>
-    /* これまでのスタイルをほぼそのまま使えます */
     body { margin:0; padding:0; font-family:"Helvetica Neue",sans-serif;
       background:url('https://images.unsplash.com/photo-1511853133261-3a7a475a94c1?auto=format&fit=crop&w=1950&q=80') no-repeat center/cover fixed;
     }
@@ -23,10 +22,7 @@
     .history h3 {font-size:1.1em;margin-bottom:0.5em;color:#d32f2f;}
     .history ul {list-style:none;padding:0;max-height:250px;overflow-y:auto;}
     .history li {display:flex;justify-content:space-between;padding:0.5em 0;border-bottom:1px solid #eee;font-size:0.95em;}
-    .history span.date {flex:1.2;color:#757575;}
-    .history span.desc {flex:1;}
-    .history span.amount {flex:0.8;}
-    .history span.payer {flex:1;}
+    .date {flex:1.2;color:#757575;} .desc {flex:1;} .amount {flex:0.8;} .payer {flex:1;}
   </style>
 </head>
 <body>
@@ -35,8 +31,10 @@
     <h1>🗼東京旅プール財布🌸</h1>
     <div id="balance" class="balance">🌟残額を取得中…</div>
 
-    <!-- ① フォーム送信 -->
-    <form id="payForm" action="【ここにあなたのGAS URL】" method="post" target="dummyframe">
+    <!-- フォーム送信 -->
+    <form id="payForm"
+          action="https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec"
+          method="post" target="dummyframe">
       <div class="form-group">
         <label for="desc">項目 🍱</label>
         <input id="desc" name="desc" type="text" placeholder="例: ランチ 🍣" required />
@@ -64,13 +62,13 @@
     </div>
   </div>
 
-  <!-- 非表示 iframe でフォーム送信を完了 -->
+  <!-- 非表示 iframe -->
   <iframe name="dummyframe" style="display:none;"></iframe>
 
   <script>
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyT4bu0eW5QOVdk3p0jiAcFCJGWMttr-4Bcp6QRNA33R1JYDX1BJAv661-HP3_sLobPJQ/exec";
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec";
 
-    // JSONP コールバック
+    // JSONPコールバック
     function handleData(data) {
       document.getElementById("balance").innerText =
         `🌸現在の残額：${data.balance.toLocaleString()}円`;
@@ -85,26 +83,26 @@
           `<span class="payer">${e.payer}</span>`;
         ul.appendChild(li);
       });
-      document.getElementById("log").innerText = "✅ 更新しました";
+      document.getElementById("log").innerText = "";
     }
 
-    // データ取得（JSONP）
+    // データ取得(JSONP)
     function fetchData() {
-      const script = document.createElement("script");
-      script.src = `${WEBAPP_URL}?callback=handleData`;
-      document.body.appendChild(script);
-      script.onload = () => document.body.removeChild(script);
+      const s = document.createElement("script");
+      s.src = `${WEBAPP_URL}?callback=handleData`;
+      document.body.appendChild(s);
+      s.onload = () => document.body.removeChild(s);
     }
 
-    // フォーム送信後にログ出力＆データ再取得
+    // フォーム送信後の動作
     document.getElementById("payForm").addEventListener("submit", e => {
       e.preventDefault();
       document.getElementById("log").innerText = "⏳ 登録中…";
-      e.target.submit();              // iframe 経由で POST
-      setTimeout(fetchData, 1500);    // 少し待って再取得
+      e.target.submit();                 // iframe 経由でPOST
+      setTimeout(fetchData, 1500);       // 少し待って履歴を更新
     });
 
-    // 初回データ取得
+    // 初回読み込み時
     fetchData();
   </script>
 </body>
