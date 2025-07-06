@@ -2,27 +2,69 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🗼東京旅プール財布🌸</title>
   <style>
-    body { margin:0; padding:0; font-family:"Helvetica Neue",sans-serif;
-      background:url('https://images.unsplash.com/photo-1511853133261-3a7a475a94c1?auto=format&fit=crop&w=1950&q=80') no-repeat center/cover fixed;
+    body {
+      margin:0; padding:0;
+      font-family:"Helvetica Neue",sans-serif;
+      background:url('https://images.unsplash.com/photo-1511853133261-3a7a475a94c1?auto=format&fit=crop&w=1950&q=80')
+        no-repeat center/cover fixed;
     }
-    .overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.85);z-index:1;}
-    .container {position:relative;z-index:2;max-width:700px;margin:2em auto;background:#fff;border-radius:12px;padding:1.5em;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
-    h1 {text-align:center;font-size:1.8em;color:#d32f2f;}
-    .balance {text-align:center;font-size:1.2em;font-weight:bold;color:#388e3c;margin:0.5em 0;}
-    .form-group {margin-bottom:1.2em;}
-    label {display:block;margin-bottom:0.3em;font-weight:bold;}
-    input, select, button {width:100%;padding:0.6em;border:1px solid #ccc;border-radius:6px;font-size:1em;box-sizing:border-box;}
-    button {margin-top:0.5em;background:#1976d2;color:#fff;border:none;cursor:pointer;}
-    button:hover {background:#1565c0;}
-    .log {margin-top:0.8em;font-size:0.9em;color:#555;text-align:center;}
-    .history {margin-top:2em;}
-    .history h3 {font-size:1.1em;margin-bottom:0.5em;color:#d32f2f;}
-    .history ul {list-style:none;padding:0;max-height:250px;overflow-y:auto;}
-    .history li {display:flex;justify-content:space-between;padding:0.5em 0;border-bottom:1px solid #eee;font-size:0.95em;}
-    .date {flex:1.2;color:#757575;} .desc {flex:1;} .amount {flex:0.8;} .payer {flex:1;}
+    .overlay {
+      position:fixed; top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(255,255,255,0.85);
+      z-index:1;
+    }
+    .container {
+      position:relative; z-index:2;
+      max-width:700px; margin:2em auto;
+      background:#fff; border-radius:12px;
+      padding:1.5em;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+    h1 { text-align:center; font-size:1.8em; color:#d32f2f; }
+    .balance {
+      text-align:center; font-size:1.2em;
+      font-weight:bold; color:#388e3c;
+      margin:0.5em 0;
+    }
+    .form-group { margin-bottom:1.2em; }
+    label { display:block; margin-bottom:0.3em; font-weight:bold; }
+    input, select, button {
+      width:100%; padding:0.6em;
+      border:1px solid #ccc; border-radius:6px;
+      font-size:1em; box-sizing:border-box;
+    }
+    button {
+      margin-top:0.5em;
+      background:#1976d2; color:#fff;
+      border:none; cursor:pointer;
+    }
+    button:hover { background:#1565c0; }
+    .log {
+      margin-top:0.8em; font-size:0.9em;
+      color:#555; text-align:center;
+    }
+    .history { margin-top:2em; }
+    .history h3 {
+      font-size:1.1em; margin-bottom:0.5em;
+      color:#d32f2f;
+    }
+    .history ul {
+      list-style:none; padding:0;
+      max-height:250px; overflow-y:auto;
+    }
+    .history li {
+      display:flex; justify-content:space-between;
+      padding:0.5em 0; border-bottom:1px solid #eee;
+      font-size:0.95em;
+    }
+    .date { flex:1.2; color:#757575; }
+    .desc { flex:1; }
+    .amount { flex:0.8; }
+    .payer { flex:1; }
   </style>
 </head>
 <body>
@@ -31,9 +73,9 @@
     <h1>🗼東京旅プール財布🌸</h1>
     <div id="balance" class="balance">🌟残額を取得中…</div>
 
-    <!-- フォーム送信 -->
+    <!-- ★ フォーム送信 ★ -->
     <form id="payForm"
-          action="https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec"
+          action="https://script.google.com/macros/s/＜あなたのGAS URL＞/exec"
           method="post" target="dummyframe">
       <div class="form-group">
         <label for="desc">項目 🍱</label>
@@ -66,9 +108,9 @@
   <iframe name="dummyframe" style="display:none;"></iframe>
 
   <script>
-    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec";
+    const WEBAPP_URL = "https://script.google.com/macros/s/＜あなたのGAS URL＞/exec";
 
-    // JSONPコールバック
+    // JSONP callback
     function handleData(data) {
       document.getElementById("balance").innerText =
         `🌸現在の残額：${data.balance.toLocaleString()}円`;
@@ -86,7 +128,7 @@
       document.getElementById("log").innerText = "";
     }
 
-    // データ取得(JSONP)
+    // JSONPでデータ取得
     function fetchData() {
       const s = document.createElement("script");
       s.src = `${WEBAPP_URL}?callback=handleData`;
@@ -94,15 +136,16 @@
       s.onload = () => document.body.removeChild(s);
     }
 
-    // フォーム送信後の動作
-    document.getElementById("payForm").addEventListener("submit", e => {
-      e.preventDefault();
-      document.getElementById("log").innerText = "⏳ 登録中…";
-      e.target.submit();                 // iframe 経由でPOST
-      setTimeout(fetchData, 1500);       // 少し待って履歴を更新
-    });
+    // フォーム送信後の挙動
+    document.getElementById("payForm")
+      .addEventListener("submit", e => {
+        e.preventDefault();
+        document.getElementById("log").innerText = "⏳ 登録中…";
+        e.target.submit();        // iframe経由でPOST
+        setTimeout(fetchData, 1500);
+      });
 
-    // 初回読み込み時
+    // 初回ロード
     fetchData();
   </script>
 </body>
