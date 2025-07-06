@@ -2,48 +2,79 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>東京旅プール財布 - 履歴付き</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>東京旅プール財布</title>
   <style>
     body {
       font-family: "Helvetica Neue", sans-serif;
-      background: #f9f9f9;
-      padding: 1em;
+      background: linear-gradient(to bottom right, #fdfcfb, #e2d1c3);
+      margin: 0;
+      padding: 0;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/85/Tokyo_Tower_and_Skyline.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 1;
     }
     .container {
+      position: relative;
+      z-index: 2;
       max-width: 700px;
-      margin: auto;
-      background: white;
+      margin: 2em auto;
+      background: #fff;
       border-radius: 12px;
-      padding: 1em;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1.5em;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     h1 {
-      color: #4A90E2;
+      text-align: center;
+      color: #d32f2f;
+      margin-bottom: 0.5em;
     }
-    label, input, select, button {
+    .balance {
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #388e3c;
+      margin-bottom: 1em;
+    }
+    .form-group {
+      margin-bottom: 1em;
+    }
+    label {
       display: block;
+      margin-bottom: 0.3em;
+      font-weight: bold;
+    }
+    input, select, button {
       width: 100%;
-      margin-bottom: 0.7em;
+      padding: 0.6em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 1em;
     }
     button {
-      background: #4A90E2;
+      background: #1976d2;
       color: white;
       border: none;
-      padding: 0.7em;
-      font-size: 1em;
-      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5em;
+    }
+    button:hover {
+      background: #1565c0;
     }
     .log {
       margin-top: 1em;
       font-size: 0.9em;
       color: #555;
-    }
-    .balance {
-      margin-top: 1em;
-      font-weight: bold;
-      font-size: 1.1em;
-      color: #00796b;
     }
     .history {
       margin-top: 2em;
@@ -55,88 +86,108 @@
     .history ul {
       list-style: none;
       padding: 0;
+      max-height: 300px;
+      overflow-y: auto;
     }
     .history li {
-      padding: 0.3em 0;
+      padding: 0.6em;
       border-bottom: 1px solid #eee;
       font-size: 0.95em;
+      display: flex;
+      justify-content: space-between;
+    }
+    .history li span {
+      flex: 1;
+    }
+    .history li span.date {
+      flex: 1.2;
+      color: #757575;
     }
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
   <div class="container">
     <h1>東京旅プール財布</h1>
     <div id="balance" class="balance">残額を取得中...</div>
 
-    <label>項目: <input id="desc" type="text" /></label>
-    <label>金額: <input id="amount" type="number" /></label>
-    <label>立替者:
+    <div class="form-group">
+      <label for="desc">項目</label>
+      <input id="desc" type="text" placeholder="例: 昼食" />
+    </div>
+    <div class="form-group">
+      <label for="amount">金額 (円)</label>
+      <input id="amount" type="number" placeholder="例: 1200" />
+    </div>
+    <div class="form-group">
+      <label for="payer">立替者</label>
       <select id="payer">
         <option value="">プールから直接</option>
-        <option value="玄位">玄位</option>
-        <option value="浩史">浩史</option>
-        <option value="晶子">晶子</option>
-        <option value="献四郎">献四郎</option>
-        <option value="真理子">真理子</option>
-        <option value="和貴">和貴</option>
-        <option value="優貴子">優貴子</option>
+        <option>玄位</option>
+        <option>浩史</option>
+        <option>晶子</option>
+        <option>献四郎</option>
+        <option>真理子</option>
+        <option>和貴</option>
+        <option>優貴子</option>
       </select>
-    </label>
-    <button onclick="sendData()">スプレッドシートに登録</button>
-    <div class="log" id="log"></div>
+    </div>
+    <button id="submitBtn">登録する</button>
+    <div id="log" class="log"></div>
 
-    <div class="history" id="history"></div>
+    <div class="history" id="history">
+      <h3>支払い履歴</h3>
+      <ul id="historyList"></ul>
+    </div>
   </div>
 
   <script>
-    const endpoint = "https://script.google.com/macros/s/AKfycby_nn68iEiBgdKJB6erqw1zXNTk6Yc4dnjzhfmvCoeSS1zPytQXowqaHVGZEw0tGKxzgQ/exec";
+    const gscriptUrl = "https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec";
 
-    function fetchData() {
-      fetch(endpoint)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("balance").innerText =
-            `現在の残額：${data.balance.toLocaleString()}円`;
+    // データ取得・表示
+    async function fetchData() {
+      try {
+        const res = await fetch(gscriptUrl);
+        const data = await res.json();
+        document.getElementById("balance").innerText = `現在の残額：${data.balance.toLocaleString()}円`;
 
-          const historyDiv = document.getElementById("history");
-          historyDiv.innerHTML = "<h3>支払い履歴</h3><ul>" +
-            data.entries.reverse().map(e =>
-              `<li>${e.date}｜${e.desc}｜${e.amount.toLocaleString()}円｜${e.payer}</li>`
-            ).join("") +
-            "</ul>";
-        })
-        .catch(() => {
-          document.getElementById("balance").innerText = "データ取得に失敗しました";
+        const list = document.getElementById("historyList");
+        list.innerHTML = '';
+        data.entries.reverse().forEach(e => {
+          const li = document.createElement('li');
+          li.innerHTML = `<span class="date">${e.date}</span><span>${e.desc}</span><span>${e.amount.toLocaleString()}円</span><span>${e.payer}</span>`;
+          list.appendChild(li);
         });
+      } catch {
+        document.getElementById("balance").innerText = "残高の取得に失敗しました";
+      }
     }
 
-    function sendData() {
-      const desc = document.getElementById("desc").value;
-      const amount = document.getElementById("amount").value;
+    // 支出登録
+    async function submitPayment() {
+      const desc = document.getElementById("desc").value.trim();
+      const amount = parseFloat(document.getElementById("amount").value);
       const payer = document.getElementById("payer").value;
-
       if (!desc || !amount) {
-        alert("項目と金額を入力してください");
+        alert("項目と金額を正しく入力してください");
         return;
       }
-
-      fetch(endpoint, {
-        method: "POST",
-        mode: "no-cors", // 本番用ではCORS回避のため必要
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ desc, amount, payer })
-      });
-
-      document.getElementById("log").innerText =
-        "登録しました（反映に数秒かかります）";
-      document.getElementById("desc").value = "";
-      document.getElementById("amount").value = "";
-
-      setTimeout(fetchData, 3000);
+      try {
+        await fetch(gscriptUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ desc, amount, payer })
+        });
+        document.getElementById("log").innerText = "登録完了。反映に数秒かかります。";
+        document.getElementById("desc").value = '';
+        document.getElementById("amount").value = '';
+        fetchData();
+      } catch (err) {
+        alert("送信エラー：" + err);
+      }
     }
 
+    document.getElementById("submitBtn").addEventListener('click', submitPayment);
     fetchData();
   </script>
 </body>
