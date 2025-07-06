@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -90,31 +89,10 @@
   </div>
 
   <script>
+    const endpoint = "https://script.google.com/macros/s/AKfycbzEG0HraWY-TUl8e5i5DD7ANYb82ybhrf-ELekQLDBPMaaZ9MANl8S7orjCD0Vw2-9Bmg/exec";
+
     function fetchData() {
-
-    function submitPayment(desc, amount, payer) {
-      fetch("https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          desc: desc,
-          amount: amount,
-          payer: payer
-        })
-      })
-      .then(response => response.text())
-      .then(result => {
-        alert("送信完了：" + result);
-        fetchData();
-      })
-      .catch(error => {
-        alert("送信失敗：" + error);
-      });
-    }
-
-      fetch("https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec")
+      fetch(endpoint)
         .then(res => res.json())
         .then(data => {
           document.getElementById("balance").innerText =
@@ -142,7 +120,7 @@
         return;
       }
 
-      fetch("https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec", {
+      fetch(endpoint, {
         method: "POST",
         mode: "no-cors",
         headers: {
