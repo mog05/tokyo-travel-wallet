@@ -3,24 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>東京旅プール財布</title>
+  <title>🗼東京旅プール財布🌸</title>
   <style>
     body {
-      font-family: "Helvetica Neue", sans-serif;
-      background: linear-gradient(to bottom right, #fdfcfb, #e2d1c3);
       margin: 0;
       padding: 0;
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/85/Tokyo_Tower_and_Skyline.jpg');
+      font-family: "Helvetica Neue", sans-serif;
+      background: url('https://images.unsplash.com/photo-1511853133261-3a7a475a94c1?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
       background-size: cover;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-position: center;
     }
     .overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.85);
       z-index: 1;
     }
     .container {
@@ -35,160 +31,167 @@
     }
     h1 {
       text-align: center;
+      font-size: 1.8em;
       color: #d32f2f;
-      margin-bottom: 0.5em;
     }
     .balance {
       text-align: center;
       font-size: 1.2em;
       font-weight: bold;
       color: #388e3c;
-      margin-bottom: 1em;
+      margin: 0.5em 0;
     }
     .form-group {
-      margin-bottom: 1em;
+      margin-bottom: 1.2em;
     }
     label {
       display: block;
       margin-bottom: 0.3em;
       font-weight: bold;
     }
-    input, select, button {
+    input, select {
       width: 100%;
       padding: 0.6em;
       border: 1px solid #ccc;
       border-radius: 6px;
-      box-sizing: border-box;
       font-size: 1em;
+      box-sizing: border-box;
     }
     button {
+      display: block;
+      width: 100%;
+      padding: 0.8em;
       background: #1976d2;
       color: white;
       border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
       cursor: pointer;
-      margin-top: 0.5em;
     }
     button:hover {
       background: #1565c0;
     }
     .log {
-      margin-top: 1em;
+      margin-top: 0.8em;
       font-size: 0.9em;
       color: #555;
+      text-align: center;
     }
     .history {
       margin-top: 2em;
     }
     .history h3 {
-      margin-bottom: 0.5em;
       font-size: 1.1em;
+      margin-bottom: 0.5em;
+      color: #d32f2f;
     }
     .history ul {
       list-style: none;
       padding: 0;
-      max-height: 300px;
+      max-height: 250px;
       overflow-y: auto;
     }
     .history li {
-      padding: 0.6em;
-      border-bottom: 1px solid #eee;
-      font-size: 0.95em;
       display: flex;
       justify-content: space-between;
+      padding: 0.5em 0;
+      border-bottom: 1px solid #eee;
+      font-size: 0.95em;
     }
-    .history li span {
-      flex: 1;
-    }
-    .history li span.date {
+    .history span.date {
       flex: 1.2;
       color: #757575;
     }
+    .history span.desc { flex: 1; }
+    .history span.amount { flex: 0.8; }
+    .history span.payer { flex: 1; }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
   <div class="container">
-    <h1>東京旅プール財布</h1>
-    <div id="balance" class="balance">残額を取得中...</div>
+    <h1>🗼東京旅プール財布🌸</h1>
+    <div id="balance" class="balance">🌟残額を取得中…</div>
 
     <div class="form-group">
-      <label for="desc">項目</label>
-      <input id="desc" type="text" placeholder="例: 昼食" />
+      <label for="desc">項目 🍱</label>
+      <input id="desc" type="text" placeholder="例: ランチ 🍣" />
     </div>
     <div class="form-group">
-      <label for="amount">金額 (円)</label>
+      <label for="amount">金額 💴</label>
       <input id="amount" type="number" placeholder="例: 1200" />
     </div>
     <div class="form-group">
-      <label for="payer">立替者</label>
+      <label for="payer">立替者 👤</label>
       <select id="payer">
         <option value="">プールから直接</option>
-        <option>玄位</option>
-        <option>浩史</option>
-        <option>晶子</option>
-        <option>献四郎</option>
-        <option>真理子</option>
-        <option>和貴</option>
-        <option>優貴子</option>
+        <option>玄位</option><option>浩史</option><option>晶子</option>
+        <option>献四郎</option><option>真理子</option>
+        <option>和貴</option><option>優貴子</option>
       </select>
     </div>
-    <button id="submitBtn">登録する</button>
+    <button id="submitBtn">✈️ 登録する</button>
     <div id="log" class="log"></div>
 
-    <div class="history" id="history">
-      <h3>支払い履歴</h3>
+    <div class="history">
+      <h3>📝 支払い履歴</h3>
       <ul id="historyList"></ul>
     </div>
   </div>
 
   <script>
-    const gscriptUrl = "https://script.google.com/macros/s/AKfycbwlfedu9LS2EvcVXdd05qxRyujxHA6AVywU97bSQ25a-HI3zVC1jACiGJbbOyKMG_RWvw/exec";
+    const gscriptUrl = "https://script.google.com/macros/s/AKfycbz1JSpeL26jCMEqBIf02MYD6ADqTI5W2uz6hC_JECngJSs9Q09BzavbH4A-RqRCwuu6dA/exec";
 
-    // データ取得・表示
     async function fetchData() {
       try {
-        const res = await fetch(gscriptUrl);
-        const data = await res.json();
-        document.getElementById("balance").innerText = `現在の残額：${data.balance.toLocaleString()}円`;
-
-        const list = document.getElementById("historyList");
-        list.innerHTML = '';
-        data.entries.reverse().forEach(e => {
-          const li = document.createElement('li');
-          li.innerHTML = `<span class="date">${e.date}</span><span>${e.desc}</span><span>${e.amount.toLocaleString()}円</span><span>${e.payer}</span>`;
-          list.appendChild(li);
-        });
-      } catch {
-        document.getElementById("balance").innerText = "残高の取得に失敗しました";
-      }
+        const res = await fetch(`${gscriptUrl}?callback=handleData`);
+      } catch {};
     }
 
-    // 支出登録
+    function handleData(data) {
+      document.getElementById("balance").innerText = `🌸現在の残額：${data.balance.toLocaleString()}円`;
+      const list = document.getElementById("historyList");
+      list.innerHTML = '';
+      data.entries.reverse().forEach(e => {
+        const li = document.createElement('li');
+        li.innerHTML =
+          `<span class="date">${e.date}</span>` +
+          `<span class="desc">${e.desc}</span>` +
+          `<span class="amount">${e.amount.toLocaleString()}円</span>` +
+          `<span class="payer">${e.payer}</span>`;
+        list.appendChild(li);
+      });
+    }
+
     async function submitPayment() {
-      const desc = document.getElementById("desc").value.trim();
+      const desc   = document.getElementById("desc").value.trim();
       const amount = parseFloat(document.getElementById("amount").value);
-      const payer = document.getElementById("payer").value;
+      const payer  = document.getElementById("payer").value;
       if (!desc || !amount) {
-        alert("項目と金額を正しく入力してください");
+        alert("項目と金額を入力してください✨");
         return;
       }
-      try {
-        await fetch(gscriptUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ desc, amount, payer })
-        });
-        document.getElementById("log").innerText = "登録完了。反映に数秒かかります。";
-        document.getElementById("desc").value = '';
-        document.getElementById("amount").value = '';
-        fetchData();
-      } catch (err) {
-        alert("送信エラー：" + err);
-      }
+      await fetch(gscriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ desc, amount, payer })
+      });
+      document.getElementById("log").innerText = "✅ 登録完了！反映に数秒かかります。";
+      document.getElementById("desc").value = '';
+      document.getElementById("amount").value = '';
+      // 再取得
+      const script = document.createElement("script");
+      script.src = `${gscriptUrl}?callback=handleData`;
+      document.body.appendChild(script);
+      script.onload = () => document.body.removeChild(script);
     }
 
-    document.getElementById("submitBtn").addEventListener('click', submitPayment);
-    fetchData();
+    document.getElementById("submitBtn").addEventListener("click", submitPayment);
+    // 初期データ取得
+    const initScript = document.createElement("script");
+    initScript.src = `${gscriptUrl}?callback=handleData`;
+    document.body.appendChild(initScript);
+    initScript.onload = () => document.body.removeChild(initScript);
   </script>
 </body>
 </html>
