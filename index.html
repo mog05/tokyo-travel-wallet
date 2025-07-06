@@ -41,9 +41,7 @@
       color: #388e3c;
       margin: 0.5em 0;
     }
-    .form-group {
-      margin-bottom: 1.2em;
-    }
+    .form-group { margin-bottom: 1.2em; }
     label {
       display: block;
       margin-bottom: 0.3em;
@@ -68,18 +66,14 @@
       font-size: 1.1em;
       cursor: pointer;
     }
-    button:hover {
-      background: #1565c0;
-    }
+    button:hover { background: #1565c0; }
     .log {
       margin-top: 0.8em;
       font-size: 0.9em;
       color: #555;
       text-align: center;
     }
-    .history {
-      margin-top: 2em;
-    }
+    .history { margin-top: 2em; }
     .history h3 {
       font-size: 1.1em;
       margin-bottom: 0.5em;
@@ -98,10 +92,7 @@
       border-bottom: 1px solid #eee;
       font-size: 0.95em;
     }
-    .history span.date {
-      flex: 1.2;
-      color: #757575;
-    }
+    .history span.date { flex: 1.2; color: #757575; }
     .history span.desc { flex: 1; }
     .history span.amount { flex: 0.8; }
     .history span.payer { flex: 1; }
@@ -140,13 +131,7 @@
   </div>
 
   <script>
-    const gscriptUrl = "https://script.google.com/macros/s/AKfycbz1JSpeL26jCMEqBIf02MYD6ADqTI5W2uz6hC_JECngJSs9Q09BzavbH4A-RqRCwuu6dA/exec";
-
-    async function fetchData() {
-      try {
-        const res = await fetch(`${gscriptUrl}?callback=handleData`);
-      } catch {};
-    }
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz3CCHlDFqivgjReg6wwkcbaoAxfaPwAuNvnDBGQLSDtaUDyIvZKBoe56MkROLGOM9JNw/exec";
 
     function handleData(data) {
       document.getElementById("balance").innerText = `🌸現在の残額：${data.balance.toLocaleString()}円`;
@@ -163,15 +148,21 @@
       });
     }
 
+    // 初期データ取得(JSONP)
+    const initScript = document.createElement("script");
+    initScript.src = `${WEBAPP_URL}?callback=handleData`;
+    document.body.appendChild(initScript);
+
+    // 支出登録
     async function submitPayment() {
-      const desc   = document.getElementById("desc").value.trim();
+      const desc = document.getElementById("desc").value.trim();
       const amount = parseFloat(document.getElementById("amount").value);
-      const payer  = document.getElementById("payer").value;
+      const payer = document.getElementById("payer").value;
       if (!desc || !amount) {
         alert("項目と金額を入力してください✨");
         return;
       }
-      await fetch(gscriptUrl, {
+      await fetch(WEBAPP_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ desc, amount, payer })
@@ -179,19 +170,14 @@
       document.getElementById("log").innerText = "✅ 登録完了！反映に数秒かかります。";
       document.getElementById("desc").value = '';
       document.getElementById("amount").value = '';
-      // 再取得
+      // 再データ取得(JSONP)
       const script = document.createElement("script");
-      script.src = `${gscriptUrl}?callback=handleData`;
+      script.src = `${WEBAPP_URL}?callback=handleData`;
       document.body.appendChild(script);
       script.onload = () => document.body.removeChild(script);
     }
 
     document.getElementById("submitBtn").addEventListener("click", submitPayment);
-    // 初期データ取得
-    const initScript = document.createElement("script");
-    initScript.src = `${gscriptUrl}?callback=handleData`;
-    document.body.appendChild(initScript);
-    initScript.onload = () => document.body.removeChild(initScript);
   </script>
 </body>
 </html>
